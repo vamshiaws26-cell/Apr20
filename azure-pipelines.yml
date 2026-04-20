@@ -3,7 +3,7 @@ trigger:
 
 # This tells Azure to use a Windows Server
 pool:
-  vmImage: 'windows-latest'
+  name: 'Default'
 
 steps:
 - powershell: |
