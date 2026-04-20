@@ -1,0 +1,28 @@
+trigger:
+- main
+
+# This tells Azure to use a Windows Server
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- powershell: |
+    Write-Host "Current Date: $(Get-Date)"
+    Write-Host "Checking files in folder..."
+    Get-ChildItem
+  displayName: 'Step 1: Check Files with PowerShell'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.SourcesDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Backup.zip'
+    replaceExistingArchive: true
+  displayName: 'Step 2: Zip Files'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'WindowsBackup'
+  displayName: 'Step 3: Save the Zip'
