@@ -1,0 +1,15 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'   # change to windows-latest if needed
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+
+- script: |
+    npm install
+    node app.js &
+  displayName: 'Install & Run App'
